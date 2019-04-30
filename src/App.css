@@ -1,12 +1,35 @@
-.App {
-  display: flex;
-  justify-content: center;
-}
-
 
 .list-group-item {
   width: 50%;
   margin: 0 auto;
   height:200px;
+  line-height: 200px;
 }
+
+.row-own-0 {
+  margin-top:5%;
+}
+
+.row-own-1 {
+  margin-top:15%;
+}
+
+.form-cont {
+  background-color:#F8F8F8;
+  height:350px;
+  border:1px solid #F0F0F0;
+  width:50%;
+  margin:0 auto;
+}
+
+
+.list-group-item input {
+  height:30px;
+}
+
+
+
+
+
+
 
