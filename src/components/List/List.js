@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
+import '../List/List.css';
+
+
+
 
 const List = props => {
-  const [listItems, setListItems] = useState(
-    Array.from(Array(10).keys(), n => n + 1)
-  );
   const [DataList, setDataList] = useState(props.loadedData.slice(0, 10));
+
   const [isFetching, setIsFetching] = useState(false);
 
-  console.log('prosp loadedDat', props.loadedData);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -15,9 +16,11 @@ const List = props => {
   }, []);
 
   useEffect(() => {
-    if (!isFetching) return;
+    if (!isFetching) return; //if state isFetching is false ( and thas true) return nothing, return from function
     fetchMoreListItems();
   }, [isFetching]);
+
+
 
   function handleScroll() {
     if (
@@ -25,42 +28,64 @@ const List = props => {
       document.documentElement.offsetHeight
     )
       return;
-    console.log("Fetch more list items!");
     setIsFetching(true);
-  }
+  };
+
+
 
   function fetchMoreListItems() {
     setTimeout(() => {
-      // setListItems(prevState => (  [...prevState, ...Array.from(Array(10).keys(), n => n + prevState.length + 1)])  ); //spread prev array
-      setDataList(prevState => [
-        ...prevState,
-        ...props.loadedData.slice(10)
-      ]);
+      setDataList(prevState => [...prevState, ...props.loadedData.slice(0, 10)]); //problem here?
+
       setIsFetching(false);
     }, 2000);
   }
 
 
 
+  let urlVideo = `https://www.youtube.com/embed/`;
+  
+
   return (
     <>
       <ul className="list-group mb-2">
-        {DataList.map((data, ind) => (
+        {DataList.map(  (data, ind) => (
           <>
-            <li key={data.id} className="list-group-item">
-              List Item {data.title}
+            
+              <li key={data.id} className="list-group-item">
+              <p className='li-text-class'><span>{data.title} </span>
+                <button className="btn btn-primary">Edit</button>
+                <button className="btn btn-warning">Delete</button>
+              </p>
 
-              <button className="btn btn-primary">Edit</button>
-              <button className="btn btn-warning">Delete</button>
-            </li>
-            <li>{data.meta.url}</li>
+                {data.type == "VIDEO" ? (
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={urlVideo + data.meta.url.slice(32)}
+                    target="_parent"
+                  />
+                ) : null}
+
+                {data.type == 'IMAGE' ? (
+                    <img alt="Smiley face" height="100%" width="100%" src={data.meta.url}/>
+                ) : null}
+
+                {data.type == 'LINK' ? (
+                 <a href={data.meta.url}>Visit</a>   
+                ): null}
+              </li>
+
+              
           </>
-        ))}
+        ))  }
       </ul>
       {isFetching && "Fetching more list items..."}
     </>
   );
 };
+
+
 
 export default List;
 
@@ -69,3 +94,6 @@ export default List;
 //If window.innerHeight + document.scrollTop == document offsetHeight => so, if scroll reached end of viewport
 //Moras da saljes diff keys.
 //So, think how to structure your code
+
+//show image VIDEO OR LINK, but how to do that?
+//IF type IS image, DO THIS,

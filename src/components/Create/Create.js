@@ -3,7 +3,6 @@ import '../Create/Create.css';
 
 
 const Create = (props) => {
-    console.log('props u crate:', props.sendInpVal);
     let placeholderTitle = `Add ${props.placeholder} title`;
     let placeholderUrl =   `Add ${props.placeholder} url`;
  

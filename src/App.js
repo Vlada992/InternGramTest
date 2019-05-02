@@ -70,25 +70,19 @@ class App extends Component {
 
   createPost = () => {
     if(this.state.loadedData != null){
-      //
       const newPost = {
         id: this.state.loadedData.length + 1,
         type:'IMAGE',
         meta: {url: this.state.inpValUrl},
         title: this.state.inpValTitle
       }
-      console.log(newPost);
-      //const loadedDataNew = [...this.state.loadedData]
-      //loadedDataNew.push(newPost);
 
       this.setState( (state) => {
-        state.loadedData = [...this.state.loadedData, newPost];
+        state.loadedData = [newPost, ...this.state.loadedData ]
         return state;
     });
-      console.log('loadedData original:', this.state);
-      //
     }
-  }
+  };
 
 
 

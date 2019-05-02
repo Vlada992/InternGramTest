@@ -1,0 +1,28 @@
+
+.list-group-item {
+    display: flex!important;
+    flex-direction: column!important;
+    width: 50%;
+    margin: 0 auto;
+    height:500px;
+    line-height: 200px;
+  }
+
+  
+.list-group-item input {
+    height:30px;
+  }
+  
+  
+
+
+.li-text-class {
+    height: 100px;
+    line-height: 100px;
+}
+
+.li-text-class span {
+    margin-right:5%;
+    font-weight:800;
+    letter-spacing: 1px;
+}
