@@ -12,22 +12,24 @@ class App extends Component {
 
     this.state = {
       loadedData: null,
-      createTypeDiv:false,
-      createInpDiv:false,
-      placeholder: '',
-      inpValTitle:'',
-      inpValUrl:''
+      createTypeDiv: false,
+      createInpDiv: false,
+      placeholder: "",
+      inpValTitle: "",
+      inpValUrl: ""
     };
   }
+
+
 
   componentDidMount() {
     console.log("creation phase [componentDidMount] [FOURTH CALLED] -4");
     axios
       .get("http://localhost:3004/posts")
       .then(response => {
+        console.log('GET RESPONSE:', response)
         const respData = response.data;
         this.setState({ loadedData: respData });
-        console.log(response.data.title);
       })
       .catch(error => {
         console.log(error);
@@ -38,69 +40,83 @@ class App extends Component {
 
 
   createBtnHandler = () => {
-    console.log('func works');
-    this.setState({createTypeDiv:true})
+    console.log("func works");
+    this.setState({ createTypeDiv: true });
   };
 
 
 
-  createInpHandler = (event) => {
-    console.log('event je:', event.target.value)
-    const {value} = event.target;
-      this.setState({
-        placeholder : value,
-        createInpDiv:true,
-        inpValTitle:'',
-        inpValUrl:''
-      })
+
+  createInpHandler = event => {
+    console.log("event je:", event.target.value);
+    const { value } = event.target;
+    this.setState({
+      placeholder: value,
+      createInpDiv: true,
+      inpValTitle: "",
+      inpValUrl: ""
+    });
   };
 
-
-
-  sendInpVal = (event) => {
-    console.log('48 line:', event.target.value)
-    const {value, name} = event.target;
+  sendInpVal = event => {
+    const { value, name } = event.target;
     this.setState({
       [name]: value
     });
-
-
-    //}
   };
 
+
+
+
   createPost = () => {
-    if(this.state.loadedData != null){
-      const newPost = {
+    if (this.state.loadedData != null) {
+
+      /*const newPost = {
         id: this.state.loadedData.length + 1,
         type:'IMAGE',
         meta: {url: this.state.inpValUrl},
         title: this.state.inpValTitle
       }
 
-      this.setState( (state) => {
-        state.loadedData = [newPost, ...this.state.loadedData ]
+      this.setState(state => {
+        state.loadedData = [newPost, ...this.state.loadedData];
         return state;
-    });
+      });/*
+
+      //***************** */
+      axios
+        .post("http://localhost:3004/posts", {
+        id: this.state.loadedData.length + 1,
+        type: String(this.state.placeholder).toUpperCase(),
+        meta: { url: this.state.inpValUrl },
+        title: this.state.inpValTitle
+        })
+        .then(response => {
+          console.log("response sa novim dodatim objektom:", response);
+          console.log('response status:', response.status)
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      //******************** */
     }
   };
-
-
 
   render() {
     console.log("creation phase [render] [THIRD CALLED] -3");
     return (
       <div className="container-fluid">
-      
         <div className="row justify-content-center row-own-0">
           <div className="col-lg-12 text-center mb-5">
             <h1>Manage lists</h1>
           </div>
 
-          <Create  {...this.state}
-           createBtn = {this.createBtnHandler}
-           createInp = {this.createInpHandler}
-           takeInpVal={this.sendInpVal}
-           createPost={this.createPost}
+          <Create
+            {...this.state}
+            createBtn={this.createBtnHandler}
+            createInp={this.createInpHandler}
+            takeInpVal={this.sendInpVal}
+            createPost={this.createPost}
           />
         </div>
 
@@ -115,16 +131,10 @@ class App extends Component {
   }
 }
 
+
+
+
 export default App;
-
-
-
-
-
-
-
-
-
 
 //main, class component
 //We need: CRUD

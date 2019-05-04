@@ -5,12 +5,11 @@ import '../List/List.css';
 
 
 const List = props => {
-  const [DataList, setDataList] = useState(props.loadedData.slice(0, 10));
+  const [DataList, setDataList] = useState(props.loadedData.slice(0,10));
+  const [isFetching, setIsFetching] = useState(false); // this.state = {isFetching:false}
 
-  const [isFetching, setIsFetching] = useState(false);
 
-
-  useEffect(() => {
+  useEffect(() => {                                 //method, similar to componentDidMount
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -21,6 +20,13 @@ const List = props => {
   }, [isFetching]);
 
 
+  function fetchMoreListItems() {
+    setTimeout(() => {
+      setDataList(prevState => [...prevState, ...props.loadedData.slice(0, 10)]);
+      setIsFetching(false);
+    }, 2000);
+  };
+
 
   function handleScroll() {
     if (
@@ -28,19 +34,17 @@ const List = props => {
       document.documentElement.offsetHeight
     )
       return;
-    setIsFetching(true);
+    setIsFetching(true);    //this.setState({isFetching:true})
   };
 
 
 
-  function fetchMoreListItems() {
+  /*function fetchMoreListItems() {
     setTimeout(() => {
-      setDataList(prevState => [...prevState, ...props.loadedData.slice(0, 10)]); //problem here?
-
+      setDataList(prevState => [...prevState, ...props.loadedData.slice(0, 10)]);
       setIsFetching(false);
     }, 2000);
-  }
-
+  };*/
 
 
   let urlVideo = `https://www.youtube.com/embed/`;
@@ -50,34 +54,34 @@ const List = props => {
     <>
       <ul className="list-group mb-2">
         {DataList.map(  (data, ind) => (
-          <>
+          <div key={ind}>
             
-              <li key={data.id} className="list-group-item">
+              <li key={ind} className="list-group-item">
               <p className='li-text-class'><span>{data.title} </span>
                 <button className="btn btn-primary">Edit</button>
                 <button className="btn btn-warning">Delete</button>
               </p>
 
-                {data.type == "VIDEO" ? (
+                {data.type === "VIDEO" ? (
                   <iframe
+                    title={`frame${ind}`}
                     width="100%"
                     height="100%"
                     src={urlVideo + data.meta.url.slice(32)}
                     target="_parent"
                   />
                 ) : null}
+                {  console.log('url from data:', data.meta.url)}
 
-                {data.type == 'IMAGE' ? (
+                {data.type === 'IMAGE' ? (
                     <img alt="Smiley face" height="100%" width="100%" src={data.meta.url}/>
                 ) : null}
 
-                {data.type == 'LINK' ? (
+                {data.type === 'LINK' ? (
                  <a href={data.meta.url}>Visit</a>   
                 ): null}
               </li>
-
-              
-          </>
+          </div>
         ))  }
       </ul>
       {isFetching && "Fetching more list items..."}
