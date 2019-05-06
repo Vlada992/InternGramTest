@@ -19,10 +19,12 @@ const List = props => {
     fetchMoreListItems();
   }, [isFetching]);
 
+  
 
   function fetchMoreListItems() {
     setTimeout(() => {
-      setDataList(prevState => [...prevState, ...props.loadedData.slice(0, 10)]);
+      console.log('a ovde u fetchMoreListItems:', props.loadedData)
+      setDataList(prevState => [...prevState, ...props.loadedData.slice(props.loadedData.length - 10)]);
       setIsFetching(false);
     }, 2000);
   };
@@ -37,14 +39,6 @@ const List = props => {
     setIsFetching(true);    //this.setState({isFetching:true})
   };
 
-
-
-  /*function fetchMoreListItems() {
-    setTimeout(() => {
-      setDataList(prevState => [...prevState, ...props.loadedData.slice(0, 10)]);
-      setIsFetching(false);
-    }, 2000);
-  };*/
 
 
   let urlVideo = `https://www.youtube.com/embed/`;
@@ -71,7 +65,6 @@ const List = props => {
                     target="_parent"
                   />
                 ) : null}
-                {  console.log('url from data:', data.meta.url)}
 
                 {data.type === 'IMAGE' ? (
                     <img alt="Smiley face" height="100%" width="100%" src={data.meta.url}/>
@@ -101,3 +94,11 @@ export default List;
 
 //show image VIDEO OR LINK, but how to do that?
 //IF type IS image, DO THIS,
+
+
+/* [1] hide placeholder/input value, after click on creating something
+   [2] show new post, on TOP.
+   [3] add edit/delete button
+   [4] style whole app
+   [5] create more components from existing ones.
+*/

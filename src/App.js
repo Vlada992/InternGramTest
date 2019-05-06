@@ -38,10 +38,9 @@ class App extends Component {
 
 
 
-
   createBtnHandler = () => {
     console.log("func works");
-    this.setState({ createTypeDiv: true });
+    this.setState({ createTypeDiv: true }); //calls rerender and lifehooks
   };
 
 
@@ -63,13 +62,14 @@ class App extends Component {
     this.setState({
       [name]: value
     });
-  };
+  }; //MOZDA, nepotrebna funkcija?
 
 
 
 
   createPost = () => {
     if (this.state.loadedData != null) {
+      console.log('loaded data state pre axios.post:', this.state.loadedData);
 
       /*const newPost = {
         id: this.state.loadedData.length + 1,
@@ -81,9 +81,8 @@ class App extends Component {
       this.setState(state => {
         state.loadedData = [newPost, ...this.state.loadedData];
         return state;
-      });/*
+      });*/
 
-      //***************** */
       axios
         .post("http://localhost:3004/posts", {
         id: this.state.loadedData.length + 1,
@@ -93,12 +92,11 @@ class App extends Component {
         })
         .then(response => {
           console.log("response sa novim dodatim objektom:", response);
-          console.log('response status:', response.status)
+          console.log('state array:', this.state.loadedData); //nije promenjen, nema novog objekta iz axios.post
         })
         .catch(error => {
           console.log(error);
         });
-      //******************** */
     }
   };
 

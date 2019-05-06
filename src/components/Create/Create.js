@@ -2,7 +2,7 @@ import React from "react";
 import '../Create/Create.css';
 
 
-const Create = (props) => {
+const Create = (props) => {                                  
     let placeholderTitle = `Add ${props.placeholder} title`;
     let placeholderUrl =   `Add ${props.placeholder} url`;
  
@@ -34,7 +34,7 @@ const Create = (props) => {
       </div>
     </>
   );
-}
+}  //ES6 React Functional component
 
 
 
