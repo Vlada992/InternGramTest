@@ -21,7 +21,6 @@ class App extends Component {
   }
 
 
-
   componentDidMount() {
     console.log("creation phase [componentDidMount] [FOURTH CALLED] -4");
     axios
@@ -33,8 +32,10 @@ class App extends Component {
       })
       .catch(error => {
         console.log(error);
-      });
-  }
+      })
+
+     // FetchData()
+  };
 
 
 
@@ -62,7 +63,7 @@ class App extends Component {
     this.setState({
       [name]: value
     });
-  }; //MOZDA, nepotrebna funkcija?
+  };
 
 
 
